@@ -4,10 +4,8 @@ Documentation repository for the Studium stadium reservation system. The applica
 
 | Repository | Path | Role |
 | --- | --- | --- |
-| Application (server + web client) | `C:\xampp\htdocs\studium_reservation_management` | PHP 8.2 server-rendered app, JSON API for AJAX, vanilla CSS and JS |
-| Documentation (this repo) | `D:\IT\htdocs_projects\studium_reservation_management_docs` | Design, models, services, controllers, use cases, phases |
-
-Neither repository has a published remote yet; links between them are local paths.
+| Application (server + web client) | [HussainALAradi5/studium_reservation_management](https://github.com/HussainALAradi5/studium_reservation_management) — local: `C:\xampp\htdocs\studium_reservation_management` | PHP 8.2 server-rendered app, JSON API for AJAX, vanilla CSS and JS |
+| Documentation (this repo) | [HussainALAradi5/studium_reservation_management_docs](https://github.com/HussainALAradi5/studium_reservation_management_docs) — local: `D:\IT\htdocs_projects\studium_reservation_management_docs` | Design, models, services, controllers, use cases, phases |
 
 ## What the system does
 
