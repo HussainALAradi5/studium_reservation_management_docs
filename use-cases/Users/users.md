@@ -4,7 +4,8 @@
 - **Actor:** Guest
 - **Preconditions:** Not signed in.
 - **Main flow:** Guest fills full name, username, email, phone, password → AJAX `POST /api/auth/register` → server validates and checks duplicates → user saved with role `customer` → session started → redirected to the dashboard.
-- **Failure flows:** Invalid fields → 422 with per-field errors shown under each input; duplicate username/email/phone → 409 field error.
+- **Failure flows:** Invalid fields → 422 with per-field errors shown under each input; duplicate username/email/phone → 409 field error. Duplicates are detected regardless of letter case or phone formatting (`Ali` = `ali`, `+973 3300-0001` = `+97333000001`).
+- **Alternate flow:** Opened from a locked stadium page (`/register?next=/stadiums/{code}`) → returns to that stadium after registering.
 - **Result:** Active customer account, signed in.
 
 ### UC-USR-02 User signs in

@@ -6,4 +6,6 @@
 | [Regional](Regional/cities.md) | UC-REG-01 create city, 02 edit city, 03 delete city |
 | [Stadiums](Stadiums/stadiums.md) | UC-STD-01 create stadium, 02 edit stadium and location, 03 activate/deactivate, 04 browse and filter, 05 view stadium and availability |
 | [Reservations](Reservations/reservations.md) | UC-RSV-01 book, 02 book with conflict, 03 confirm, 04 reject, 05 cancel, 06 reschedule, 07 complete, 08 pending expiry |
+| [Notifications](Notifications/notifications.md) | UC-NTF-01 staff told of new bookings, 02 customer follows a booking, 03 read and clear |
+| [Reviews](Reviews/reviews.md) | UC-REV-01 rate once after playing, 02 read reviews (members only), 03 moderate |
 | [Accounting](Accounting/accounting.md) | UC-ACC-01 record payment, 02 record refund, 03 log expense, 04 delete expense, 05 view report |

@@ -9,5 +9,6 @@
 | 05. Client foundation | Done | Phase 04 | [phase-05-client-foundation](phase-05-client-foundation/README.md) |
 | 06. Client screens | Done | Phase 05 | [phase-06-client-screens](phase-06-client-screens/README.md) |
 | 07. Mobile | Skipped | Phase 04 | [phase-07-mobile](phase-07-mobile/README.md) |
-| 08. Quality | In progress | Phase 06 | [phase-08-quality](phase-08-quality/README.md) |
+| 08. Quality | Done | Phase 06 | [phase-08-quality](phase-08-quality/README.md) |
 | 09. Documentation and release | In progress | Phase 08 | [phase-09-documentation-release](phase-09-documentation-release/README.md) |
+| 10. Notifications, reviews, and UI refinements | Done | Phase 06 | [phase-10-notifications-reviews](phase-10-notifications-reviews/README.md) |

@@ -9,11 +9,11 @@ Complete docs and ship.
 ## Scope
 | Layer | Folders | Items |
 | --- | --- | --- |
-| Docs | this repository | Models, services, controllers, use cases, setup |
+| Docs | this repository | Models, services, controllers, use cases, setup, test report |
 
 ## Tasks
 - [ ] Screenshots section
-- [ ] Release checks
+- [ ] Release verification
 
 ## Acceptance criteria
 - Docs match the code; release checks pass

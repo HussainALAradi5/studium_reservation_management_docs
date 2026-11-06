@@ -14,6 +14,8 @@ All persisted models extend [BaseEntity](Base/base-entity.md). Columns use `snak
 | Accounting | Expense | `expenses` | [expense.md](Accounting/expense.md) |
 | Settings | Setting | `settings` | [setting.md](Settings/setting.md) |
 | Users | RolePermission | `role_permissions` | [role-permission.md](Users/role-permission.md) |
+| Notifications | Notification | `notifications` | [notification.md](Notifications/notification.md) |
+| Reviews | Review | `reviews` | [review.md](Reviews/review.md) |
 
 Non-entity tables: `login_attempts` (identifier, ip_address, attempted_at) for sign-in throttling, and `schema_migrations` for applied migrations.
 
@@ -29,6 +31,9 @@ erDiagram
     RESERVATIONS ||--o{ PAYMENTS : "is paid by (reservation_id)"
     STADIUMS ||--o{ EXPENSES : "costs (stadium_id)"
     USERS ||--o{ PAYMENTS : "records (created_by)"
+    USERS ||--o{ NOTIFICATIONS : "receives (user_id)"
+    STADIUMS ||--o{ REVIEWS : "is rated by (stadium_id)"
+    USERS ||--o{ REVIEWS : "writes (customer_id)"
 ```
 
 ## Relationship table
@@ -48,6 +53,8 @@ erDiagram
 | Reservation | BaseEntity | one-to-many | Payment | `payments.reservation_id` | restrict |
 | Payment | BaseEntity | many-to-one | Reservation | `reservation_id` | restrict |
 | Expense | BaseEntity | many-to-one | Stadium | `stadium_id` | restrict |
+| Notification | BaseEntity | many-to-one | User | `user_id` | cascade |
+| Review | BaseEntity | many-to-one | Stadium, User | `stadium_id`, `customer_id` (unique pair) | restrict |
 
 Rows are never hard-deleted by the application: deletion sets `deleted_at` / `deleted_by` (soft delete), so `restrict` foreign keys protect history. Payments are never soft-deleted; a mistake is corrected with a refund entry.
 
@@ -65,3 +72,12 @@ Rows are never hard-deleted by the application: deletion sets `deleted_at` / `de
 | expenses | `(stadium_id, expense_date)` | Report by stadium and period |
 | settings | `UNIQUE(setting_key)` | One row per key |
 | role_permissions | `UNIQUE(role, permission)` | One grant per pair |
+| notifications | `(user_id, read_at, created_at)` | Unread badge and inbox |
+| reviews | `UNIQUE(stadium_id, customer_id)`, `(stadium_id, deleted_at, created_at)` | One review per customer and stadium; review list |
+
+## Case-insensitive uniqueness
+
+`users.username`, `users.email`, `users.phone`, and every `code` are unique regardless of letter case or formatting:
+
+1. `IdentityNormalizer` (regex-based) stores canonical values: lower-case username and email, phone without spaces/dashes/brackets, upper-case codes. Lookups normalize the same way.
+2. The unique indexes use the `utf8mb4_unicode_ci` collation, so the database itself rejects `Customer` when `customer` exists.

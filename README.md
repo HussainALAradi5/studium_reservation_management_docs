@@ -14,6 +14,8 @@ Documentation repository for the Studium stadium reservation system. The applica
 - Admins manage users, cities, and every stadium, and see global accounting.
 - Every stadium has an address (city + street) and a map location picked on a free OpenStreetMap map, with Google Maps links for directions.
 - Double bookings are prevented by a locked, transactional overlap check; a conflicting request gets alternative free slots back.
+- In-app notifications (bell + inbox) for every booking, payment, and review event.
+- Customers rate a stadium once, only after playing there; comments are visible to signed-in users only.
 
 ## Stack
 
@@ -42,4 +44,5 @@ Documentation repository for the Studium stadium reservation system. The applica
 | [security/](security/README.md) | Roles, permission matrix, controls |
 | [integrations/maps.md](integrations/maps.md) | Map and location integration |
 | [migrations/](migrations/README.md) | Migration order and schema notes |
-| [setup/server/](setup/server/README.md) | Local setup on XAMPP |
+| [setup/server/](setup/server/README.md) | Local setup on XAMPP, running tests |
+| [testing/](testing/test-report-2026-11-07.md) | Project-testing report (ten checks) |

@@ -12,5 +12,9 @@
 | `Stadiums/StadiumRules.php` | Slot lengths 30/60/90/120, capacity 2–200, description max 2000, default country `BH` |
 | `Reservations/ReservationRules.php` | Minimum hourly booking 30 min, suggestion search 7 days, month pattern, expiry reason, datetime format |
 | `Accounting/AccountingRules.php` | 3 decimals, max amount, max report range 366 days |
+| `Reviews/ReviewRules.php` | Rating 1–5, comment 3–1000, 5 reviews per page |
+| `Notifications/NotificationRules.php` | Bell shows 8, inbox pages of 15, date label format |
+
+`RegexPatterns` also holds `PHONE_SEPARATORS` and `WHITESPACE_RUN` (used by `IdentityNormalizer` for case- and format-insensitive uniqueness) and `TEMPLATE_PLACEHOLDER` (notification templates). `CodePrefixes` adds `NTF` (notifications) and `REV` (reviews); `ErrorCodes` adds `REVIEW_NOT_ALLOWED` and `REVIEW_ALREADY_EXISTS`.
 
 Admin-tunable booking limits are **settings**, not constants: see [SettingsKey](../enums/README.md#settingskey).

@@ -49,6 +49,8 @@ PHP 8.1 backed enums in `enums/<Group>/`. Each enum has `label()` for display an
 | `cities.manage` | — |
 | `users.manage` | — |
 | `settings.manage` | — |
+| `reviews.write` | customer |
+| `reviews.moderate` | manager |
 
 Admins always hold every permission (not editable, so nobody gets locked out).
 
@@ -64,6 +66,29 @@ Admins always hold every permission (not editable, so nobody gets locked out).
 | `reservation.max_days` | 7 | 1–30 | Longest daily booking |
 | `reservation.cancel_cutoff_hours` | 2 | 0–168 | Customer cancel cutoff for confirmed bookings |
 | `reservation.suggestion_limit` | 5 | 1–10 | Alternatives offered on conflict |
+
+## NotificationTemplate
+`enums/Notifications/NotificationTemplate.php` — every in-app message: title, body pattern with named placeholders (`:stadium`, `:when`, `:customer`, `:amount`, `:reason`, `:rating`), and kind.
+
+| Template | Recipient | Kind |
+| --- | --- | --- |
+| `reservation.requested` / `reservation.booked` (auto-confirm) | stadium manager (or all admins) | booking |
+| `reservation.confirmed` | customer | booking |
+| `reservation.rejected` | customer | alert |
+| `reservation.cancelled` | the other party | alert |
+| `reservation.rescheduled` | the other party | booking |
+| `reservation.completed` | customer (invites a review) | booking |
+| `reservation.expired` | customer | alert |
+| `payment.recorded` / `payment.refunded` | customer | payment |
+| `review.created` | stadium manager (or all admins) | review |
+
+`body()` fills only the pattern's own placeholders, so text inside a value (e.g. a cancel reason containing `:late`) is never treated as a placeholder.
+
+## NotificationKind
+`enums/Notifications/NotificationKind.php` — `booking`, `payment`, `review`, `alert`; each has an icon and a color tone.
+
+## ReviewEligibility
+`enums/Reviews/ReviewEligibility.php` — `can_review`, `already_reviewed`, `not_played`, `not_a_customer`. The review form is rendered only for `can_review`; the other cases show their message.
 
 ## PaymentStatus
 `enums/Reservations/PaymentStatus.php` — `unpaid`, `partial`, `paid`, `refunded`. Derived from `paid_amount` and `total_amount`; see [accounting](../../workflows/accounting.md).

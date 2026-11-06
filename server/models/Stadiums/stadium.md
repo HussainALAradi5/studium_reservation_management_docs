@@ -17,6 +17,8 @@ Table `stadiums` — a bookable field or court.
 | `opening_time` | `TIME` | no | e.g. `08:00` |
 | `closing_time` | `TIME` | no | If ≤ opening time, the stadium closes after midnight (16:00 → 02:00) |
 | `slot_minutes` | `SMALLINT UNSIGNED` | no | Booking grid step: 30, 60, 90 or 120 |
+| `rating_average` | `DECIMAL(3,2)` | no | Average of visible [reviews](../Reviews/review.md), maintained by `ReviewRepository::refreshStadiumRating` |
+| `rating_count` | `INT UNSIGNED` | no | Number of visible reviews |
 | `is_active` | `TINYINT(1)` | no | Inactive stadiums are hidden from customers and not bookable |
 
 **Relations:** many-to-one User (manager); one-to-one Address; one-to-many Reservation; one-to-many Expense.

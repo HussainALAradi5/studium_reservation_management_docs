@@ -43,6 +43,20 @@
 | `MAP_TILE_URL` | OpenStreetMap | Tile server |
 | `SEED_PASSWORD` | — | Development seed password |
 
+## Tests
+
+Unit tests (no packages needed):
+
+```bash
+C:\xampp\php\php.exe tests/run.php
+```
+
+API suite against the running app (roles, IDOR, errors, uniqueness, notifications, reviews), from Git Bash with Apache, MySQL, and the dev seed:
+
+```bash
+bash tests/http/api-suite.sh
+```
+
 ## Logs
 
 Unexpected errors: `storage/logs/app.log`. Apache errors: `C:\xampp\apache\logs\error.log`.

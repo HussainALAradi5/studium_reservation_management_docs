@@ -24,7 +24,12 @@ validations/ Common/ Users/
 views/       layouts/ partials/ (ui, forms, filters, layout, reservations) + one folder per page group
 assets/      css/ (base, layout, components, pages)  javascripts/ (core, config, forms, ui, stadiums, reservations)
 storage/logs/
+tests/       run.php (unit runner)  Unit/<Layer>/…Test.php  http/api-suite.sh
 ```
+
+Notifications and reviews follow the same layout: `models/Notifications`, `repositories/Notifications`, `services/Notifications`, `controllers/Notifications`, `enums/Notifications`, `constants/Notifications`, and the same for `Reviews`.
+
+All text files use LF line endings (`.gitattributes`).
 
 The autoloader maps `App\<Layer>\<Group>\<Class>` to `<layer>/<Group>/<Class>.php` (`config/App/bootstrap.php`).
 
@@ -53,7 +58,6 @@ The autoloader maps `App\<Layer>\<Group>\<Class>` to `<layer>/<Group>/<Class>.ph
 | --- | --- | --- |
 | `Auth/Authenticate` | `auth` | 401 when signed out (pages redirect to `/login?next=`) |
 | `Auth/RedirectIfAuthenticated` | `guest` | Signed-in users skip sign-in pages |
-| `Auth/RequireRole` | `role:admin,manager` | Role check (available; routes use permissions) |
 | `Auth/RequirePermission` | `can:reservations.manage` | Permission check via `PermissionService` → 403 |
 | `Security/VerifyCsrf` | global | 403 `CSRF_MISMATCH` |
 | `Security/SecurityHeaders` | global | Security headers, CSP nonce |
@@ -70,6 +74,8 @@ The autoloader maps `App\<Layer>\<Group>\<Class>` to `<layer>/<Group>/<Class>.ph
 | `Codes/CodeGenerator` | `PREFIX-XXXXXXXX` codes |
 | `Dates/OpeningWindow` | Opening window of a day, including windows that cross midnight |
 | `Formatting/Money`, `Formatting/AddressFormatter` | 3-decimal money; address line and Google Maps URLs |
+| `Formatting/IdentityNormalizer` | Regex-based canonical forms: lower-case username/email, phone without separators, upper-case codes, collapsed whitespace |
+| `Logging/Logger` | One line per event to `storage/logs/app.log` (used by the error handler and failed notification inserts) |
 | `Views/View`, `Views/helpers.php` | Rendering and helpers: `e`, `url`, `asset`, `partial`, `icon`, `button`, `badge`, `can`, `attrs`, `money`, `format_date` |
 
 Base persistence: `repositories/Base/BaseRepository.php` generates codes (retrying on a unique collision), fills `created_*`/`updated_*` from `CurrentUser`, soft-deletes, and exposes prepared-statement helpers. Validation: `validations/Common/Validator.php` (fluent rules, all errors at once) and `QueryFilters` (lenient list filters).

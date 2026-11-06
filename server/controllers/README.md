@@ -20,7 +20,7 @@ Request bodies are JSON with camelCase fields. Error codes per status are listed
 | `POST /api/auth/register` | `AuthService::register` | Customer sign-up | public | `RegisterDto {fullName, username, email, phone, password, passwordConfirmation}` | `{message, redirect}` 201 | 409, 422 |
 | `POST /api/auth/logout` | `AuthService::logout` | Sign out | signed in | — | `{message, redirect}` | — |
 
-`next` is accepted only as an internal path (no open redirects).
+`next` is accepted only as an internal path (no open redirects). Sign-in defaults to `/dashboard`; registration accepts `next` too (default `/stadiums`) so a guest who was asked to register on a stadium page returns to it. Username, email, and phone are normalized (case-insensitive) before validation.
 
 ## ProfileController — `controllers/Users/ProfileController.php`
 
@@ -94,6 +94,26 @@ Request bodies are JSON with camelCase fields. Error codes per status are listed
 | `POST /api/expenses` | `ExpenseService::create` | `expenses.manage` + scope | `ExpenseFormDto {stadiumCode, category, amount, expenseDate, description}` | 404, 422 |
 | `DELETE /api/expenses/{code}` | `ExpenseService::delete` | `expenses.manage` + scope | — | 404 |
 | `GET /accounting/reports?from&to&stadium` | `ReportService::buildSummary` | `reports.view` + scope | `ReportQuery` | 404, 422 |
+
+## NotificationController — `controllers/Notifications/NotificationController.php` (signed in, own notifications only)
+
+| Method and path | Service function | Why | Response | Errors |
+| --- | --- | --- | --- | --- |
+| `GET /notifications?status=unread&kind&page` | `NotificationService::list` | Inbox page | HTML | — |
+| `GET /api/notifications` | `list` + `unreadCount` | Bell dropdown (latest 8) | `{items[{code, kind, icon, tone, title, body, link, isRead, createdAt}], unreadCount}` | 401 |
+| `GET /api/notifications/unread-count` | `unreadCount` | Badge polling (every 60 s, paused in hidden tabs) | `{unreadCount}` | 401 |
+| `POST /api/notifications/{code}/read` | `markRead` | Open one | `{unreadCount}` | 401, 404 (not yours) |
+| `POST /api/notifications/read-all` | `markAllRead` | Mark all read | `{message, unreadCount}` | 401 |
+
+## ReviewController — `controllers/Reviews/ReviewController.php`
+
+| Method and path | Service function | Access | Request DTO | Response | Errors |
+| --- | --- | --- | --- | --- | --- |
+| `GET /api/stadiums/{code}/reviews?page` | `ReviewService::list` | signed in (guests 401) | — | `[{code, rating, comment, customerName, createdAt}]` + `meta` | 401, 404 |
+| `POST /api/stadiums/{code}/reviews` | `ReviewService::create` | `reviews.write` + played there + first review | `ReviewFormDto {rating 1–5, comment}` | `{message, redirect}` 201 | 403 `FORBIDDEN` / `REVIEW_NOT_ALLOWED`, 409 `REVIEW_ALREADY_EXISTS`, 422 |
+| `DELETE /api/reviews/{code}` | `ReviewService::delete` | `reviews.moderate` + manages the stadium | — | `{message}` | 404 |
+
+`GET /stadiums/{code}` also renders the first page of reviews, the user's eligibility, and the moderator's remove buttons (guests: average only, comments locked).
 
 ## SettingsController — `controllers/Settings/SettingsController.php` (permission `settings.manage`)
 

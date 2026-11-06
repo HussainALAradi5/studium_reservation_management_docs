@@ -6,10 +6,10 @@ Server-rendered PHP views styled with a vanilla CSS design system, enhanced by v
 
 | File | Contents |
 | --- | --- |
-| `base/tokens.css` | Color, glass, radius, shadow, and motion tokens; light by default, dark via `prefers-color-scheme` or `[data-theme="dark"]` |
+| `base/tokens.css` | Steel-blue palette (`--primary-rgb: 70, 130, 180`) with glass, radius, shadow, and motion tokens; every glow and focus ring derives from `--primary-rgb`; light by default, dark via `prefers-color-scheme` or `[data-theme="dark"]` |
 | `base/base.css` | Reset, typography, animated background blobs, layout helpers (`stack`, `row`, `grid-*`, `split`) |
 | `components/animations.css` | Generic keyframes and utilities: `anim-fade-up`, `anim-scale-in`, `anim-shake`, `[data-animate]` scroll reveal, `[data-stagger]`, `skeleton`, `spinner`, reduced-motion support |
-| `components/buttons.css` | customButton: variants, sizes, sheen on hover, press scale, ripple, loading spinner |
+| `components/buttons.css` | customButton: variants, sizes, ripple, loading spinner. Hover = 2 px lift + gradient glide + one forward shine sweep (a keyframe, so it never plays backwards on mouse-out), only on devices with a real hover pointer |
 | `components/surfaces.css` | Glass cards, stat cards, tone helpers, badges (dot, live pulse, icon, solid), alerts, responsive tables, pagination, empty states, avatars |
 | `components/forms.css` | Fields with icons, errors with shake, switch, checkbox chips, segmented control, stepper, filter bar |
 | `components/wheel-picker.css` | iOS and Android wheel picker sheet |
@@ -29,6 +29,12 @@ Server-rendered PHP views styled with a vanilla CSS design system, enhanced by v
 | `filters/genericFilter.php` | Auto-submitting GET filter bar for any list |
 | `ui/genericTable.php`, `ui/pagination.php`, `ui/genericCard.php`, `ui/statCard.php`, `ui/pageHeader.php`, `ui/emptyState.php`, `ui/dialog.php`, `ui/stadiumCard.php`, `ui/icons.php` | Building blocks |
 | `reservations/table.php`, `reservations/actions.php` | Booking table and lifecycle buttons (confirm, reject, complete, cancel) shared by dashboard and lists |
+| `ui/stars.php`, `forms/genericField.php` type `rating` | Read-only stars with average and count; accessible 1–5 star radio input |
+| `reviews/section.php`, `reviews/item.php` | Reviews card: locked for guests, form only when eligible, moderator remove buttons |
+| `layout/guestNav.php` | Guest navbar, shared by public pages and the sign-in / register layout (which also has a Back button) |
+| `layout/notificationBell.php` | Topbar bell with unread badge and dropdown |
+
+**Locked states:** guests see the booking widget blurred behind a lock ("You must register first" → Register / Sign in, returning to the stadium afterwards) and the review comments locked ("Sign in to read reviews"). The server enforces both (`can:reservations.book`, `auth` on the reviews API).
 
 ## JavaScript — `assets/javascripts/`
 
@@ -47,6 +53,12 @@ Server-rendered PHP views styled with a vanilla CSS design system, enhanced by v
 | `stadiums/` | `booking-widget.js` | Hourly slot grid + full-day calendar, server quotes, booking, conflict alternatives |
 | `stadiums/` | `leaflet-loader.js`, `map-view.js`, `map-picker.js` | Free OpenStreetMap maps (see [maps](../integrations/maps.md)) |
 | `reservations/` | `conflict-dialog.js` | Lists free alternatives from a 409 response |
+| `ui/` | `notification-bell.js` | Badge polling (60 s, paused in hidden tabs, toast on new items), dropdown, mark read with `keepalive`, inbox links |
+| `ui/` | `back-link.js` | Back buttons: history back when coming from this site, else the link |
+| `reviews/` | `reviews-list.js` | "Show more reviews" via the API with the same markup as the server partial |
+| `core/` | `navigation.js` | `navigate()` — follows API redirects and reloads when only the `#hash` changes |
+
+`config/endpoints.js` is the only place JavaScript builds API URLs (stadiums, reservations, reviews, notifications); forms and action buttons use the URL the server rendered into their markup. `core/http.js` supports `withMeta` (paginated responses) and `keepalive`.
 
 ## Data attributes (contract between views and JS)
 

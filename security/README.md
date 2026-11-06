@@ -36,6 +36,10 @@ Seed passwords come from `SEED_PASSWORD` in `.env`; see [setup](../setup/server/
 | Expenses | all | own stadiums | — |
 | Accounting report | all | own stadiums | — |
 | Settings and role permissions | all | — | — |
+| Read reviews | yes | yes | yes (guests: average only) |
+| Write a review | — | — | once per stadium, after playing there |
+| Remove a review | all | own stadiums | — |
+| Notifications | own | own | own |
 | Edit own profile / password | yes | yes | yes |
 
 Expressions as implemented in `services/Common/AccessPolicy.php`:
@@ -56,6 +60,8 @@ Out-of-scope records return **404** (not 403) so codes of other people's records
 | Session fixation / hijack | `session_regenerate_id` on login; `HttpOnly`, `SameSite=Lax`, `Secure` when HTTPS; idle timeout | `utilities/Security/Session.php` |
 | Brute force | 5 failed logins per username+IP in 15 min → 429 | `services/Users/AuthService.php`, `login_attempts` table |
 | Password storage | bcrypt (`password_hash`), min 8 chars with letter + digit | `utilities/Security/PasswordHasher.php` |
+| Duplicate accounts by case/format (`Ali` vs `ali`, `+973 3300 0001` vs `+97333000001`) | `IdentityNormalizer` stores canonical values; `_ci` unique indexes reject case-only duplicates | `utilities/Formatting/IdentityNormalizer.php` |
+| Concurrent conflicting actions | Row locks + re-checked transitions | `services/Reservations/ReservationService.php` |
 | Mass assignment | DTOs copy only known fields; role/price/status never read from customer input | `dtos/` |
 | IDOR | Every lookup by code goes through `AccessPolicy`; 404 when out of scope | `services/` |
 | Clickjacking, sniffing | `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, CSP | `middlewares/Security/SecurityHeaders.php` |

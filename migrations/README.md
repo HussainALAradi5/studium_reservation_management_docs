@@ -10,6 +10,8 @@ Plain SQL files in `migrations/`, applied in filename order by `bin/migrate.php`
 | 004 | `004_create_reservations_table.sql` | `reservations` (FK → stadiums, users) |
 | 005 | `005_create_payments_and_expenses_tables.sql` | `payments` (FK → reservations), `expenses` (FK → stadiums) |
 | 006 | `006_create_settings_and_role_permissions_tables.sql` | `settings`, `role_permissions` |
+| 007 | `007_create_notifications_table.sql` | `notifications` (FK → users, cascade) |
+| 008 | `008_create_reviews_table.sql` | `reviews` (unique stadium + customer), `stadiums.rating_average` / `rating_count`, grants `reviews.write` (customer) and `reviews.moderate` (manager) |
 
 All tables use InnoDB and `utf8mb4_unicode_ci`. Foreign keys use `RESTRICT` (soft delete keeps history) except `stadiums.manager_id` → `SET NULL`.
 
