@@ -45,4 +45,5 @@ Documentation repository for the Studium stadium reservation system. The applica
 | [integrations/maps.md](integrations/maps.md) | Map and location integration |
 | [migrations/](migrations/README.md) | Migration order and schema notes |
 | [setup/server/](setup/server/README.md) | Local setup on XAMPP, running tests |
+| [setup/server/deploy.md](setup/server/deploy.md) | Hosting options, production settings, install, release verification |
 | [testing/](testing/test-report-2026-11-07.md) | Project-testing report (ten checks) |
