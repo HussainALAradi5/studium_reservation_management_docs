@@ -1,5 +1,20 @@
 # Deployment
 
+**Live:** <https://studium-bh.infinityfreeapp.com> — InfinityFree free plan, PHP 8, MySQL host `sql212.infinityfree.com`, database `if0_43381176_studium`. Deployed 2026-11-07 by importing `bin/export-sql.php --with-admin` output in phpMyAdmin and uploading the release package through the InfinityFree File Manager.
+
+### Live smoke test (2026-11-07)
+
+| Check | Result |
+| --- | --- |
+| `/`, `/stadiums`, `/login`, `/register` | 200 |
+| `/dashboard` signed out | Redirect to sign-in |
+| `/api/notifications` signed out | 401 |
+| `/.env` | Blocked by the host (empty response) |
+| `/config/…`, `/bin/…`, `/migrations/…`, `/storage/logs/…` | 404 |
+| HTTPS, HSTS (180 days), CSP, `X-Frame-Options: DENY` | Present |
+| Stylesheets | Single `assets/build/app.min.css` |
+| Database | Landing page reads stadiums and cities without errors |
+
 Studium needs **PHP 8.2+, MySQL 5.7+/MariaDB 10.4+, and Apache with `.htaccess` (mod_rewrite)**. Static hosts cannot run it.
 
 | Host | Fits? | Notes |

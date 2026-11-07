@@ -1,6 +1,6 @@
 # Studium — Stadium Reservation Management (documentation)
 
-Documentation repository for the Studium stadium reservation system. The application code lives in a separate repository:
+Documentation repository for the Studium stadium reservation system. **Live:** <https://studium-bh.infinityfreeapp.com> The application code lives in a separate repository:
 
 | Repository | Path | Role |
 | --- | --- | --- |
